@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 public class BeanConfigurations {
     @Bean
     public ManageCategoryCUAdapter createManageCategoryCUInt(ManageCategoryGatewayIntPort objManageCategoryGateway, FormatterResultsIntPort objFormatterResults) {
-        ManageCategoryCUAdapter objManageCategoryCU= new ManageCategoryCUAdapter(objFormatterResults);
+        ManageCategoryCUAdapter objManageCategoryCU = new ManageCategoryCUAdapter(objManageCategoryGateway, objFormatterResults);
         return objManageCategoryCU;
     }
 }
