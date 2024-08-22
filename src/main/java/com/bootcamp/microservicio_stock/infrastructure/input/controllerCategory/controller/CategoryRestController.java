@@ -5,8 +5,12 @@ import com.bootcamp.microservicio_stock.domain.models.Category;
 import com.bootcamp.microservicio_stock.infrastructure.input.controllerCategory.RequestDTO.CategoryRequestDTO;
 import com.bootcamp.microservicio_stock.infrastructure.input.controllerCategory.ResponseDTO.CategoryResponseDTO;
 import com.bootcamp.microservicio_stock.infrastructure.input.controllerCategory.mapper.CategoryMapperInfrastructureDomain;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -27,6 +31,14 @@ public class CategoryRestController {
         this.objManageCategoryCUInt = objManageCategoryCUInt;
         this.objCategoryMapper = objCategoryMapper;
     }
+
+    @Operation(summary = "Create a new category", description = "Allows the administrator to create a new category")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Category created successfully" ,
+                content = @Content(schema = @Schema(implementation = CategoryResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
 
     @PostMapping("/category")
     public ResponseEntity<CategoryResponseDTO> create(@Valid @RequestBody CategoryRequestDTO objCategory){
