@@ -5,11 +5,8 @@ import com.bootcamp.microservicio_stock.domain.models.Category;
 import com.bootcamp.microservicio_stock.infrastructure.output.persistence.entity.CategoryEntity;
 import com.bootcamp.microservicio_stock.infrastructure.output.persistence.repository.CategoryRepositoryInt;
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.modelmapper.TypeToken;
-
 
 @Service
 public class ManageCategoryGatewayImplAdapter implements ManageCategoryGatewayIntPort {
@@ -33,7 +30,7 @@ public class ManageCategoryGatewayImplAdapter implements ManageCategoryGatewayIn
     }
 
     @Override
-    public boolean existsCategoryByName(String name) {
-        return false;
+    public boolean existsCategoryByName(String name){
+        return this.objCategoryRepository.existsCategoryByName(name) == 1;
     }
 }
