@@ -8,16 +8,16 @@ public final class ErrorUtils {
     /**
      * Crea un nuevo objeto de <code>Error</code>
      *
-     * @param codigoError
-     * @param llaveMensaje
-     * @param codigoHttp
+     * @param codeError
+     * @param keyMessage
+     * @param codeHttp
      * @return - Objeto creado
      */
-    public static Error crearError(final String codigoError, final String llaveMensaje, final Integer codigoHttp) {
+    public static Error crearError(final String codeError, final String keyMessage, final Integer codeHttp) {
         final Error error = new Error();
-        error.setCodigoError(codigoError);
-        error.setMensaje(llaveMensaje);
-        error.setCodigoHttp(codigoHttp);
+        error.setCodeError(codeError);
+        error.setMessage(keyMessage);
+        error.setCodeHttp(codeHttp);
         return error;
     }
 }

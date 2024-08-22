@@ -14,23 +14,43 @@ public class Error {
     /**
      * Código de error de la aplicación
      */
-    private String codigoError;
+    private String codeError;
     /**
      * Mensaje de error generado
      */
-    private String mensaje;
+    private String message;
     /**
      * Código de estatus http
      */
-    private Integer codigoHttp;
+    private Integer codeHttp;
     /**
      * Url de la petición que generó el error
      */
     @Accessors(chain = true)
     private String url;
     /**
-     * Método de la petición que generó el error
+     * Metodo de la peticion que generó error
      */
     @Accessors(chain = true)
     private String metodo;
+
+    public void setCodeError(String codeError) {
+        this.codeError = codeError;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public void setCodeHttp(Integer codeHttp) {
+        this.codeHttp = codeHttp;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setMetodo(String metodo) {
+        this.metodo = metodo;
+    }
 }

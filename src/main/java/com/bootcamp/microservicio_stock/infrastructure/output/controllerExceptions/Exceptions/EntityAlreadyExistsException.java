@@ -1,7 +1,9 @@
 package com.bootcamp.microservicio_stock.infrastructure.output.controllerExceptions.Exceptions;
 
 import com.bootcamp.microservicio_stock.infrastructure.output.controllerExceptions.structureExceptions.CodeError;
+import lombok.Getter;
 
+@Getter
 public class EntityAlreadyExistsException extends RuntimeException {
     private final String keyMessage;
     private final String code;
@@ -14,7 +16,7 @@ public class EntityAlreadyExistsException extends RuntimeException {
 
     public EntityAlreadyExistsException(final String message) {
         super(message);
-        this.keyMessage = CodeError.ENTIDAD_YA_EXISTE.getKeyMessage();
-        this.code = CodeError.ENTIDAD_YA_EXISTE.getCode();
+        this.keyMessage = CodeError.ENTITY_ALREADY_EXISTS.getKeyMessage();
+        this.code = CodeError.ENTITY_ALREADY_EXISTS.getCode();
     }
 }
