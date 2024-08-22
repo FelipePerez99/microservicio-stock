@@ -17,12 +17,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api")
-@RequiredArgsConstructor
 @Validated
 public class CategoryRestController {
 
     private final ManageCategoryCUIntPort objManageCategoryCUInt;
     private final CategoryMapperInfrastructureDomain objCategoryMapper;
+
+    public CategoryRestController(ManageCategoryCUIntPort objManageCategoryCUInt, CategoryMapperInfrastructureDomain objCategoryMapper) {
+        this.objManageCategoryCUInt = objManageCategoryCUInt;
+        this.objCategoryMapper = objCategoryMapper;
+    }
 
     @PostMapping("/category")
     public ResponseEntity<CategoryResponseDTO> create(@Valid @RequestBody CategoryRequestDTO objCategory){
