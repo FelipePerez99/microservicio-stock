@@ -6,6 +6,8 @@ import com.bootcamp.microservicio_stock.infrastructure.output.persistence.entity
 import com.bootcamp.microservicio_stock.infrastructure.output.persistence.repository.CategoryRepositoryInt;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,5 +34,11 @@ public class ManageCategoryGatewayImplAdapter implements ManageCategoryGatewayIn
     @Override
     public boolean existsCategoryByName(String name){
         return this.objCategoryRepository.existsCategoryByName(name) == 1;
+    }
+
+    @Override
+    public Page<Category> findAll(Pageable pageable) {
+        Page<CategoryEntity> categoryEntities = this.objCategoryRepository.findAll(pageable);
+        return categoryEntities.map(categoryEntity -> this.categoryModelMapper.map(categoryEntity, Category.class));
     }
 }
