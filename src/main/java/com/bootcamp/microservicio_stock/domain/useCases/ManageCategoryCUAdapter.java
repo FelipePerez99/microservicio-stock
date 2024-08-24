@@ -5,8 +5,9 @@ import com.bootcamp.microservicio_stock.application.output.FormatterResultsIntPo
 import com.bootcamp.microservicio_stock.application.output.ManageCategoryGatewayIntPort;
 import com.bootcamp.microservicio_stock.domain.models.Category;
 import org.springframework.data.domain.Page;
-
-import java.awt.print.Pageable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 public class ManageCategoryCUAdapter implements ManageCategoryCUIntPort {
 
@@ -30,8 +31,9 @@ public class ManageCategoryCUAdapter implements ManageCategoryCUIntPort {
     }
 
     @Override
-    public Page<Category> listCategories(Pageable pageable) {
-        Page<Category>  getList = objManageCategoryGateway.findAll(pageable);
-        return getList;
+    public Page<Category> listCategories(int page, int size, String sortBy, boolean ascending) {
+        Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return objManageCategoryGateway.findAll(pageable);
     }
 }
