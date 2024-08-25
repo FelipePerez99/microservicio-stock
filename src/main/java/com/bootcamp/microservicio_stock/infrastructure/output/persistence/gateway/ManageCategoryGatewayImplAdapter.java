@@ -6,6 +6,7 @@ import com.bootcamp.microservicio_stock.infrastructure.output.persistence.entity
 import com.bootcamp.microservicio_stock.infrastructure.output.persistence.repository.CategoryRepositoryInt;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -16,7 +17,7 @@ public class ManageCategoryGatewayImplAdapter implements ManageCategoryGatewayIn
     private final CategoryRepositoryInt objCategoryRepository;
     private final ModelMapper categoryModelMapper;
 
-    public ManageCategoryGatewayImplAdapter(CategoryRepositoryInt objCategoryRepository, ModelMapper categoryModelMapper) {
+    public ManageCategoryGatewayImplAdapter(CategoryRepositoryInt objCategoryRepository, @Qualifier("categoryMapper") ModelMapper categoryModelMapper) {
         this.objCategoryRepository = objCategoryRepository;
         this.categoryModelMapper = categoryModelMapper;
     }
