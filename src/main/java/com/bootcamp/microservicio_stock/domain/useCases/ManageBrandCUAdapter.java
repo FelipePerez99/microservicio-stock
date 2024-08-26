@@ -5,6 +5,10 @@ import com.bootcamp.microservicio_stock.application.input.ManageBrandCUIntPort;
 import com.bootcamp.microservicio_stock.application.output.FormatterResultsIntPort;
 import com.bootcamp.microservicio_stock.application.output.ManageBrandGatewayIntPort;
 import com.bootcamp.microservicio_stock.domain.models.Brand;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 public class ManageBrandCUAdapter implements ManageBrandCUIntPort {
 
@@ -25,5 +29,12 @@ public class ManageBrandCUAdapter implements ManageBrandCUIntPort {
             objCreatedBrand = this.objManageBrandGateway.save(objBrand);
         }
         return objCreatedBrand;
+    }
+
+    @Override
+    public Page<Brand> listBrands(int page, int size, String sortBy, boolean ascending) {
+        Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return objManageBrandGateway.findAllBrands(pageable);
     }
 }
