@@ -49,6 +49,15 @@ public class BrandRestController {
         return objResponse;
     }
 
+    @Operation(summary = "List brands with pagination and sorting",
+            description = "Retrieve a paginated list of brands, sorted by the specified field.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Brands retrieved successfully",
+                    content = @Content(schema = @Schema(implementation = BrandResponseDTO.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid request parameters", content = @Content),
+            @ApiResponse(responseCode = "500", description = "Internal server error", content = @Content)
+    })
+
     @GetMapping("/brands")
     public ResponseEntity<List<BrandResponseDTO>> listBrands(
             @RequestParam(defaultValue = "0") int page,
