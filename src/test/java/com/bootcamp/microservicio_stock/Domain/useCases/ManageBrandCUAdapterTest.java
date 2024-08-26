@@ -9,6 +9,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -73,5 +79,62 @@ public class ManageBrandCUAdapterTest {
 
         // Assert
         verify(objFormatterResultsIntPort, times(1)).returnResponseErrorEntityExists("Error, en el sistema se encuentra una marca con ese nombre");
+    }
+
+    @Test
+    public void testListBrandsSuccess() {
+        // Arrange
+        Brand brand1 = new Brand(1, "Brand A", "Description A");
+        Brand brand2 = new Brand(2, "Brand B", "Description B");
+        List<Brand> brands = Arrays.asList(brand1, brand2);
+        Page<Brand> brandPage = new PageImpl<>(brands);
+        when(objManageBrandGateway.findAllBrands(any(PageRequest.class))).thenReturn(brandPage);
+
+        // Act
+        Page<Brand> result = manageBrandCUAdapter.listBrands(0, 10, "name", true);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(2, result.getTotalElements());
+        assertEquals("Brand A", result.getContent().get(0).getName());
+        verify(objManageBrandGateway, times(1)).findAllBrands(any(PageRequest.class));
+    }
+
+    @Test
+    public void testListBrandsDescendingOrder() {
+        // Arrange
+        Brand brand1 = new Brand(1, "Brand A", "Description A");
+        Brand brand2 = new Brand(2, "Brand B", "Description B");
+        List<Brand> brands = Arrays.asList(brand2, brand1); // Ordenado en forma descendente
+        Page<Brand> brandPage = new PageImpl<>(brands);
+        when(objManageBrandGateway.findAllBrands(any(PageRequest.class))).thenReturn(brandPage);
+
+        // Act
+        Page<Brand> result = manageBrandCUAdapter.listBrands(0, 10, "name", false);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(2, result.getTotalElements());
+        assertEquals("Brand B", result.getContent().get(0).getName());
+        verify(objManageBrandGateway, times(1)).findAllBrands(any(PageRequest.class));
+    }
+
+    @Test
+    public void testListBrandsAscendingOrder() {
+        // Arrange
+        Brand brand1 = new Brand(1, "Brand A", "Description A");
+        Brand brand2 = new Brand(2, "Brand B", "Description B");
+        List<Brand> brands = Arrays.asList(brand1, brand2); // Ordenado en forma ascendente
+        Page<Brand> brandPage = new PageImpl<>(brands);
+        when(objManageBrandGateway.findAllBrands(any(PageRequest.class))).thenReturn(brandPage);
+
+        // Act
+        Page<Brand> result = manageBrandCUAdapter.listBrands(0, 10, "name", true);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(2, result.getTotalElements());
+        assertEquals("Brand A", result.getContent().get(0).getName());
+        verify(objManageBrandGateway, times(1)).findAllBrands(any(PageRequest.class));
     }
 }
