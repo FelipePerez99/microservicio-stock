@@ -7,6 +7,8 @@ import com.bootcamp.microservicio_stock.infrastructure.output.persistence.reposi
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,5 +35,11 @@ public class ManageBrandGatewayImplAdapter implements ManageBrandGatewayIntPort 
     @Override
     public boolean existsBrandyByName(String name) {
         return this.objBrandRepository.existsBrandByName(name) == 1;
+    }
+
+    @Override
+    public Page<Brand> findAllBrands(Pageable pageable) {
+        Page<BrandEntity> brandEntities = this.objBrandRepository.findAll(pageable);
+        return brandEntities.map(brandEntity -> this.brandModelMapper.map(brandEntity, Brand.class));
     }
 }
