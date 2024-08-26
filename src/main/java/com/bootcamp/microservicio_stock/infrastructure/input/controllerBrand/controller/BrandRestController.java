@@ -5,20 +5,20 @@ import com.bootcamp.microservicio_stock.domain.models.Brand;
 import com.bootcamp.microservicio_stock.infrastructure.input.controllerBrand.mapper.BrandMapperInfrastructureDomain;
 import com.bootcamp.microservicio_stock.infrastructure.input.controllerBrand.requestDTO.BrandRequestDTO;
 import com.bootcamp.microservicio_stock.infrastructure.input.controllerBrand.responseDTO.BrandResponseDTO;
-import com.bootcamp.microservicio_stock.infrastructure.input.controllerCategory.ResponseDTO.CategoryResponseDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api")
@@ -47,5 +47,21 @@ public class BrandRestController {
         ResponseEntity<BrandResponseDTO> objResponse = new ResponseEntity<BrandResponseDTO>(
                 objBrandMapper.mapBrandResponse(objBrandCreated), HttpStatus.CREATED);
         return objResponse;
+    }
+
+    @GetMapping("/brands")
+    public ResponseEntity<List<BrandResponseDTO>> listBrands(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String sortBy,
+            @RequestParam(defaultValue = "true") boolean ascending){
+
+        Page<Brand> brandPage = objManageBrandCUInt.listBrands(page, size, sortBy, ascending);
+
+        List<BrandResponseDTO> brandResponseList = brandPage.stream()
+                .map(objBrandMapper::mapBrandResponse)
+                .collect(Collectors.toList());
+        return new ResponseEntity<>(brandResponseList, HttpStatus.OK);
+
     }
 }
